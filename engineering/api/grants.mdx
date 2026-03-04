@@ -1,0 +1,124 @@
+---
+title: "Grants API"
+description: "REST API endpoints for options grant plan management, calculations, and exports"
+---
+
+## Base URL
+
+```
+/api/grants
+```
+
+## Authentication
+
+All endpoints require HTTP Basic Authentication. Admin-only endpoints are marked with 🔒.
+
+## Endpoints
+
+### GET /api/grants/baseline
+
+Returns Carta baseline equity data for comparison.
+
+**Auth:** All users
+
+**Response:** `200 OK`
+```json
+{
+  "total_shares": 10000000,
+  "outstanding": 8500000,
+  "available_pool": 1500000,
+  "holders": [...]
+}
+```
+
+---
+
+### GET /api/grants/plans
+
+List all grant plans.
+
+**Auth:** All users
+
+**Response:** `200 OK`
+```json
+[
+  {
+    "id": "plan_abc123",
+    "name": "2026 Q1 Grant Plan",
+    "total_pool": 500000,
+    "created_at": "2026-01-15T10:00:00Z"
+  }
+]
+```
+
+---
+
+### POST /api/grants/plans 🔒
+
+Create a new grant plan.
+
+**Auth:** Admin only
+
+**Request:**
+```json
+{
+  "name": "2026 Q1 Grant Plan",
+  "total_pool": 500000,
+  "title_tiers": [
+    {"title": "VP", "shares": 50000},
+    {"title": "Director", "shares": 25000}
+  ]
+}
+```
+
+---
+
+### POST /api/grants/plans/:id/calculate
+
+Run dilution calculations on a grant plan.
+
+**Auth:** All users
+
+**Response:** `200 OK` — Returns calculated dilution impact, pool utilization, and compliance status.
+
+---
+
+### GET /api/grants/plans/:id/scenarios
+
+Get scenario comparison data for a grant plan.
+
+**Auth:** All users
+
+---
+
+### GET /api/grants/plans/:id/carta-export 🔒
+
+Generate a Carta-compatible CSV export.
+
+**Auth:** Admin only
+
+---
+
+### GET /api/grants/reconciliation
+
+Returns reconciliation data comparing Carta baseline with current cap table.
+
+**Auth:** All users
+
+**Response:** `200 OK`
+```json
+{
+  "has_baseline": true,
+  "last_reconciled": "2026-03-01T10:00:00Z",
+  "deltas": [
+    {
+      "metric_name": "Total Shares",
+      "source_a_value": 10000000,
+      "source_b_value": 10050000,
+      "delta": 50000,
+      "delta_pct": 0.5,
+      "is_significant": false
+    }
+  ]
+}
+```

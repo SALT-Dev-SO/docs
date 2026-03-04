@@ -1,0 +1,67 @@
+---
+title: "Reconciliation API"
+description: "Data source reconciliation endpoint for cap table consistency"
+---
+
+## Overview
+
+The reconciliation system (Spec 013) ensures data consistency between Carta baseline records and the working cap table in Google Sheets.
+
+## Endpoint
+
+### GET /api/grants/reconciliation
+
+Returns delta comparison between Carta baseline and current Google Sheets data.
+
+**Auth:** All users
+
+**Response:** `200 OK`
+```json
+{
+  "has_baseline": true,
+  "spreadsheet_name": "SALT Cap Table - Board Working Copy",
+  "last_reconciled": "2026-03-01T10:00:00Z",
+  "record_count": 45,
+  "deltas": [
+    {
+      "metric_name": "Total Outstanding Shares",
+      "source_a_label": "Carta Baseline",
+      "source_a_value": 10000000,
+      "source_b_label": "Google Sheets",
+      "source_b_value": 10050000,
+      "delta": 50000,
+      "delta_pct": 0.5,
+      "is_significant": false
+    }
+  ]
+}
+```
+
+## Provenance Labels
+
+Every data-driven page displays a provenance label showing:
+
+| Field | Description |
+|-------|-------------|
+| `source_name` | Display name (e.g., "SALT Cap Table - Board Working Copy") |
+| `source_type` | `google_sheets`, `excel_fallback`, or `carta_baseline` |
+| `cache_age` | Relative time (e.g., "2 hours ago") |
+
+## Edge Cases
+
+| Scenario | Behavior |
+|----------|----------|
+| No Carta baseline | Reconciliation check skipped, no notice shown |
+| Google Sheets unavailable | Falls back to Excel, provenance shows "Excel fallback" |
+| Delta is exactly 0 | No reconciliation notice displayed |
+| Dismiss notice | Session-persistent dismiss via client-side JavaScript |
+
+## Affected Pages
+
+Provenance labels appear on 6 pages:
+1. Cap Table
+2. Cap Table Comparison
+3. Options Grants
+4. Options Grants Scenarios
+5. Scenario Analysis
+6. Conversion Schedule

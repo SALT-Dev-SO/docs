@@ -1,68 +1,93 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "SALT Documentation",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#1E40AF",
+    "light": "#3B82F6",
+    "dark": "#1E3A5F"
   },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Overview",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Getting Started",
             "pages": [
               "index",
-              "quickstart",
-              "development"
-            ]
-          },
-          {
-            "group": "Customization",
-            "pages": [
-              "essentials/settings",
-              "essentials/navigation"
-            ]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "architecture",
+              "quickstart"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "Investor Relations",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Project Silverado",
             "pages": [
-              "api-reference/introduction"
+              "investor/overview",
+              "investor/market-opportunity",
+              "investor/product-strategy",
+              "investor/treasury-operations",
+              "investor/partnerships",
+              "investor/financials",
+              "investor/operations-team"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Board & Governance",
+        "groups": [
+          {
+            "group": "D&O Dashboard",
+            "pages": [
+              "board/dashboard-overview",
+              "board/bitcoin-treasury",
+              "board/cap-table",
+              "board/options-grants",
+              "board/ffm-analytics",
+              "board/lightwave-presentation"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Access & Security",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "board/authentication",
+              "board/deployment"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Engineering",
+        "groups": [
+          {
+            "group": "Architecture",
+            "pages": [
+              "engineering/tech-stack",
+              "engineering/spec-driven-development",
+              "engineering/data-model"
+            ]
+          },
+          {
+            "group": "AI & Agents",
+            "pages": [
+              "engineering/open-brain",
+              "engineering/mcp-integrations",
+              "engineering/stacks-assistant"
+            ]
+          },
+          {
+            "group": "API Reference",
+            "pages": [
+              "engineering/api/grants",
+              "engineering/api/ffm",
+              "engineering/api/reconciliation"
             ]
           }
         ]
@@ -71,14 +96,19 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "D&O Dashboard",
+          "href": "https://salt-directors-and-officers-dashboard-production.up.railway.app",
+          "icon": "gauge-high"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Silverado PIPE",
+          "href": "https://silverado-pipe.figma.site/admin",
+          "icon": "presentation-screen"
+        },
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/SALT-Dev-SO",
+          "icon": "github"
         }
       ]
     }
@@ -90,33 +120,28 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "Dashboard",
+        "href": "https://salt-directors-and-officers-dashboard-production.up.railway.app"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Silverado PIPE",
+      "href": "https://silverado-pipe.figma.site/admin"
     }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "claude",
+      "cursor",
+      "mcp"
+    ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "github": "https://github.com/SALT-Dev-SO"
     }
   }
 }

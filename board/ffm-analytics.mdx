@@ -1,0 +1,55 @@
+---
+title: "FFM Analytics"
+description: "Financial Forecast Model — revenue, valuation, redemption, and peer comparison dashboards"
+---
+
+## Financial Forecast Model (Spec 016)
+
+The FFM Analytics module parses the Spectrum Financial Forecast Model (an Excel workbook) into structured JSON snapshots, then renders four interactive dashboard pages.
+
+## Architecture
+
+```
+Spectrum XLSX → openpyxl Parser → Pydantic Models → JSON Snapshots → Flask API → Dashboard Pages
+```
+
+## Dashboard Pages
+
+<Columns cols={2}>
+  <Card title="Overview" icon="chart-line" href="https://salt-directors-and-officers-dashboard-production.up.railway.app/ffm/overview">
+    Revenue by segment, EBITDA trends, YoY growth, key assumptions, headcount projections.
+  </Card>
+  <Card title="Valuation" icon="scale-balanced" href="https://salt-directors-and-officers-dashboard-production.up.railway.app/ffm/valuation">
+    Close-date scenarios, NTM multiples, implied enterprise values, sensitivity tables.
+  </Card>
+  <Card title="Redemption" icon="arrow-rotate-left" href="https://salt-directors-and-officers-dashboard-production.up.railway.app/ffm/redemption">
+    SPAC redemption scenarios, cash-in-trust analysis, dilution impact modeling.
+  </Card>
+  <Card title="Comp Table" icon="table" href="https://salt-directors-and-officers-dashboard-production.up.railway.app/ffm/comp-table">
+    Peer comparison across fintech and digital asset companies with market multiples.
+  </Card>
+</Columns>
+
+## Data Model
+
+| Entity | Description |
+|--------|-------------|
+| `FFMSnapshot` | Root model containing all parsed sections |
+| `SummaryIS` | Income statement — revenue lines, EBITDA, margins |
+| `KeyAssumptions` | 5 lending segments with loans receivable and revenue arrays |
+| `Valuation` | Close-date scenarios with NTM multiples and implied EVs |
+| `BTCImpact` | Toggle (ON/OFF), CAGR, and BTC-adjusted scenarios |
+| `SPACSspend` | Treasury allocation and de-SPAC cash deployment |
+| `Headcount` | Department-level headcount projections (5 years) |
+
+## Snapshot Management
+
+FFM snapshots are stored as JSON files in `data/ffm_snapshots/` with timestamps. The latest snapshot is automatically selected for rendering. Multiple snapshots enable historical comparison.
+
+<Card
+  title="FFM API Reference"
+  icon="terminal"
+  href="/engineering/api/ffm"
+>
+  Parse, list, and retrieve FFM snapshot API endpoints.
+</Card>

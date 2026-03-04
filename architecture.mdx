@@ -1,0 +1,51 @@
+---
+title: "Architecture Overview"
+description: "System architecture and information flow across SALT's documentation and tooling"
+---
+
+## System Map
+
+SALT's knowledge infrastructure connects four systems into a unified operational platform.
+
+```
+┌─────────────────────────────────────────────────────┐
+│           GitHub (SALT-Dev-SO + equanaut)            │
+│        Version-controlled source of truth            │
+│           PRs → Reviews → Merge → Deploy             │
+└──────────┬──────────────────┬────────────────────────┘
+           │                  │
+ ┌─────────▼──────┐  ┌───────▼──────────────┐
+ │   Mintlify      │  │  D&O Dashboard        │
+ │   Hosted Docs   │  │  Flask + Railway      │
+ │   + MCP Server  │  │  Board Governance     │
+ └─────────┬──────┘  └───────┬──────────────┘
+           │                  │
+     ┌─────▼──────────────────▼─────┐
+     │      Open Brain (pgvector)    │
+     │      Semantic Memory DB       │
+     │      MCP + REST + CLI         │
+     └──────┬───────────────────────┘
+            │
+     ┌──────▼────────────────────────┐
+     │    Stacks AI Agent             │
+     │    Queries both MCP servers    │
+     │    Learns continuously         │
+     └───────────────────────────────┘
+```
+
+## Components
+
+| System | Purpose | Stack | Status |
+|--------|---------|-------|--------|
+| **D&O Dashboard** | Board governance, treasury, grants, analytics | Flask 3.0, Python 3.9, Bootstrap 5 | Production (Railway) |
+| **Silverado PIPE** | Investor presentation (38 slides) | Figma Sites | Live (v3.3.26) |
+| **Mintlify Docs** | Unified documentation portal | MDX, GitHub-deployed | Setting up |
+| **Open Brain** | Semantic memory with vector search | PostgreSQL + pgvector, MCP | Development |
+
+## Data Flow
+
+1. **Source of Truth**: All code and spec artifacts live in GitHub repositories
+2. **Documentation**: MDX files in `equanaut-sha-w1/docs` auto-deploy to Mintlify on push
+3. **Board Data**: D&O Dashboard reads from Google Sheets, Carta exports, and FFM snapshots
+4. **AI Memory**: Open Brain ingests from docs, conversations, and operational data via source connectors
+5. **Agent Layer**: Stacks Assistant queries both Mintlify MCP and Open Brain MCP for context-aware responses

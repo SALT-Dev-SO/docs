@@ -1,0 +1,53 @@
+---
+title: "D&O Dashboard Overview"
+description: "SALT Directors & Officers Dashboard — board management and Bitcoin treasury platform"
+---
+
+## Dashboard Overview
+
+The SALT D&O Dashboard is a Flask-based web application deployed on Railway that serves as the central governance platform for SALT Lending's board of directors and officers.
+
+**Version:** 2.0 | **Platform:** Railway Production | **Auth:** Google OAuth + Password
+
+## Features
+
+<Columns cols={2}>
+  <Card title="Bitcoin Treasury" icon="bitcoin-sign" href="/board/bitcoin-treasury">
+    Real-time BTC reserve tracking, allocation analysis, and treasury performance.
+  </Card>
+  <Card title="Cap Table" icon="table" href="/board/cap-table">
+    Equity ownership tracking with Carta integration and data source reconciliation.
+  </Card>
+  <Card title="Options Grants" icon="chart-pie" href="/board/options-grants">
+    Interactive grant modeling with sensitivity controls, scenario comparison, and compliance tracking.
+  </Card>
+  <Card title="FFM Analytics" icon="chart-bar" href="/board/ffm-analytics">
+    Financial Forecast Model dashboards — revenue, valuation, redemption, and comp analysis.
+  </Card>
+  <Card title="Lightwave Presentation" icon="presentation-screen" href="/board/lightwave-presentation">
+    39-slide interactive investor deck with content governance.
+  </Card>
+  <Card title="Authentication" icon="lock" href="/board/authentication">
+    Google OAuth, role-based access, and admin vs. dashboard user permissions.
+  </Card>
+</Columns>
+
+## Navigation
+
+The dashboard organizes features into these sidebar groups:
+
+| Section | Pages | Description |
+|---------|-------|-------------|
+| Dashboard | Home | Main dashboard with treasury overview |
+| Equity & Grants | Cap Table, Comparison, Options Grants, Scenarios | Equity management suite |
+| FFM Analytics | Overview, Valuation, Redemption, Comp Table | Financial forecast pages |
+| Presentations | Strategy Deck, BoD Jan 2026, Lightwave SPAC | Board presentations |
+| Settings | Connected Spreadsheets | Data source configuration |
+
+## Access Levels
+
+| Role | Permissions |
+|------|------------|
+| **Admin** | Full access — all pages, API endpoints, content governance preview, grant CRUD |
+| **Dashboard User** | Read-only — view pages, run calculations, export data |
+| **Unauthenticated** | Redirect to login — no access |

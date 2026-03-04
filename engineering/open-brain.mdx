@@ -1,0 +1,62 @@
+---
+title: "Open Brain"
+description: "Semantic memory system with pgvector, MCP interface, and multi-provider embeddings"
+---
+
+## Overview
+
+Open Brain is a PostgreSQL + pgvector semantic memory system that serves as SALT's "second brain" — an AI-searchable knowledge base that accumulates operational context over time.
+
+**Repository:** [SALT-Dev-SO/open-brain](https://github.com/SALT-Dev-SO/open-brain)
+
+## Architecture
+
+```
+┌─────────────────┐     ┌──────────────┐     ┌─────────────┐
+│ Source Connectors│     │  REST API    │     │  MCP Server │
+│ Telegram, Gmail  │────▶│  Port 8000   │────▶│  Port 8080  │
+│ WhatsApp, Claude │     └──────┬───────┘     └─────────────┘
+└─────────────────┘            │
+                        ┌──────▼───────┐
+                        │  PostgreSQL  │
+                        │  + pgvector  │
+                        │  Embeddings  │
+                        └──────────────┘
+                               │
+                        ┌──────▼───────┐
+                        │  Streamlit   │
+                        │  Dashboard   │
+                        │  Port 8501   │
+                        └──────────────┘
+```
+
+## Features
+
+- **Semantic Search** — Vector similarity search across all ingested knowledge
+- **Multi-Provider Embeddings** — OpenRouter, OpenAI, or Ollama for embedding generation
+- **Source Connectors** — Ingest from Telegram, WhatsApp, Claude Code, Gmail
+- **MCP Interface** — Model Context Protocol server for AI agent integration
+- **REST API** — CRUD operations on memories with tag-based filtering
+- **Entity Extraction** — Auto-detect people, organizations, and topics
+- **CLI** — Command-line interface for memory management
+
+## Integration with Docs
+
+The planned integration pipeline:
+
+1. **Docs → Open Brain** — GitHub Action on docs repo push ingests MDX content as memories
+2. **D&O Dashboard → Open Brain** — Operational data flows via REST API connector
+3. **Agent Queries** — Stacks Assistant queries both Mintlify MCP and Open Brain MCP for context
+
+## Deployment
+
+```bash
+# Docker Compose deployment
+docker compose up -d
+
+# Services
+# - PostgreSQL + pgvector: port 5432
+# - REST API: port 8000
+# - MCP Server: port 8080
+# - Streamlit Dashboard: port 8501
+```

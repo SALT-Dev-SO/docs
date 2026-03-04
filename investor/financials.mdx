@@ -1,0 +1,48 @@
+---
+title: "Financial Overview"
+description: "Revenue forecasts, EBITDA projections, valuation scenarios, and loan metrics"
+---
+
+## Spectrum Financial Forecast Model
+
+SALT's financial projections are driven by the Spectrum FFM — an openpyxl-parsed Excel model that feeds directly into the D&O Dashboard analytics pages.
+
+## Revenue Segments
+
+The model tracks revenue across multiple lending segments:
+
+| Segment | Description |
+|---------|-------------|
+| Interest Income | Net interest from crypto-backed loans |
+| Origination Fees | Loan origination and processing fees |
+| Collateral Management | Custody and collateral service fees |
+| Exchange Revenue | Trading and conversion fees |
+| API/Platform | Enterprise API access and platform fees |
+
+## Key Financial Pages
+
+The FFM generates four analytics dashboards:
+
+<Columns cols={2}>
+  <Card title="Revenue Overview" icon="chart-line" href="/board/ffm-analytics">
+    5-year revenue and EBITDA projections with YoY growth analysis.
+  </Card>
+  <Card title="Valuation Scenarios" icon="scale-balanced" href="/board/ffm-analytics">
+    Multiple close-date scenarios with NTM multiples and implied enterprise values.
+  </Card>
+  <Card title="Redemption Analysis" icon="arrow-rotate-left" href="/board/ffm-analytics">
+    SPAC redemption sensitivity and cash-in-trust scenarios.
+  </Card>
+  <Card title="Comp Table" icon="table" href="/board/ffm-analytics">
+    Peer comparison across fintech and digital asset companies.
+  </Card>
+</Columns>
+
+## Data Sources
+
+| Data Type | Source | Update Frequency |
+|-----------|--------|-----------------|
+| Revenue/EBITDA | Spectrum XLSX → JSON snapshots | On parse |
+| Valuation | Spectrum XLSX scenarios | On parse |
+| Comp data | `data/ffm_peers.json` | Manual |
+| Catalysts | `data/ffm_catalysts.json` | Manual |

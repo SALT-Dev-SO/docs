@@ -1,0 +1,55 @@
+---
+title: "Spec-Driven Development"
+description: "SALT's SDD methodology — the full specification-to-deployment lifecycle"
+---
+
+## SDD Lifecycle
+
+Every feature follows a structured lifecycle governed by the project Constitution:
+
+```
+specify → clarify → plan → analyze → tasks → implement → validate → codify → docs-review
+```
+
+## Phase Breakdown
+
+| Phase | Command | Output | Purpose |
+|-------|---------|--------|---------|
+| Specify | `/specify` | `spec.md` | Define FRs, acceptance criteria, edge cases |
+| Clarify | `/clarify` | Updated spec | Resolve ambiguities via Q&A sessions |
+| Plan | `/plan` | `plan.md`, `research.md`, `data-model.md`, `contracts/`, `quickstart.md` | Architecture, research decisions, typed contracts |
+| Analyze | `/analyze` | `analysis-report.md` | Cross-artifact consistency check (8 checks) |
+| Tasks | `/tasks` | `tasks.md` | Ordered, dependency-aware task breakdown |
+| Implement | — | Source code | TDD implementation following tasks |
+| Validate | — | `evidence/` | Run quickstart tests, collect screenshots |
+| Codify | `/codify` | Skills | Extract reusable workflows as skills |
+| Docs Review | `/docs-review` | `DOCS_REVIEW_REPORT.md` | Verify all artifacts are complete |
+
+## Constitution Principles
+
+The Constitution (v1.2.0) enforces 9 principles:
+
+| # | Principle | Description |
+|---|-----------|-------------|
+| I | Spec-first | No code without a specification |
+| II | Validation before completion | Tests must pass before done |
+| III | Research before assumptions | Technical decisions documented |
+| IV | Linear accumulation | Branches extend linearly |
+| V | Typed contracts before code | API contracts defined pre-implementation |
+| VI | Structured observability | Evidence packages required |
+| VII | Bounded scope | Out-of-scope items enforced |
+| VIII | Automated browser validation | Comet CDP validation required |
+| IX | Comet exclusivity | No Chrome browser tools in validation |
+
+## Analysis Report Format
+
+The `/analyze` command runs 8 cross-artifact consistency checks:
+
+1. **Spec → Plan Coverage** — All FRs mapped to plan sections
+2. **Data Model → Contracts** — All entities have contract definitions
+3. **Contracts → Plan Modules** — All contracts map to implementation modules
+4. **Scope Boundary** — No out-of-scope work in plan or tasks
+5. **Tech Stack Consistency** — Technologies match across all artifacts
+6. **Error Handling Completeness** — Failure modes documented
+7. **Success Metrics Testability** — All metrics verifiable
+8. **Naming Consistency** — Terms consistent across all artifacts

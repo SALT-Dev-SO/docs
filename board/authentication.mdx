@@ -1,0 +1,38 @@
+---
+title: "Authentication & Access"
+description: "Google OAuth, password authentication, and role-based access control"
+---
+
+## Authentication Methods
+
+The D&O Dashboard supports two authentication methods:
+
+| Method | Users | Flow |
+|--------|-------|------|
+| **Google OAuth** | Primary | Sign in with Google → auto-provision or match existing user |
+| **Password** | Fallback | Username + bcrypt-hashed password stored in SQLite |
+
+## Role-Based Access
+
+| Role | Level | Permissions |
+|------|-------|------------|
+| **Admin** | Full | All pages, all API endpoints, CRUD operations, content governance preview, grant plan management |
+| **Dashboard** | Read | View all pages, run calculations, export data, view scenarios |
+| **Unauthenticated** | None | Redirect to `/login` on all routes |
+
+## Key Behaviors
+
+- **Session Management** — Flask sessions with configurable timeout
+- **Login Redirect** — All unauthenticated requests redirect to `/login`
+- **Admin-Only Routes** — Grant CRUD, Carta import/export, org chart management, audit log
+- **Content Governance** — Admin users see verbal-only and internal annotations on presentations
+- **Settings Protection** — Only admin users can modify `data/settings.json` entries
+
+## Environment Variables
+
+| Variable | Purpose | Required |
+|----------|---------|----------|
+| `SECRET_KEY` | Flask session encryption key | Yes |
+| `FLASK_ENV` | Environment mode (development/testing/production) | Yes |
+| `GOOGLE_CLIENT_ID` | OAuth client identifier | For Google OAuth |
+| `GOOGLE_CLIENT_SECRET` | OAuth client secret | For Google OAuth |

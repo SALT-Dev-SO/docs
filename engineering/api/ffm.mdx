@@ -1,0 +1,84 @@
+---
+title: "FFM API"
+description: "Financial Forecast Model API — parse XLSX, list snapshots, and retrieve analytics data"
+---
+
+## Base URL
+
+```
+/ffm
+```
+
+## Authentication
+
+All FFM routes require authentication. The FFM is registered as a Flask blueprint.
+
+## Pages (HTML)
+
+| Route | Description |
+|-------|-------------|
+| `GET /ffm/overview` | Revenue overview dashboard |
+| `GET /ffm/valuation` | Valuation scenario analysis |
+| `GET /ffm/redemption` | SPAC redemption modeling |
+| `GET /ffm/comp-table` | Peer comparison table |
+
+## API Endpoints
+
+### POST /ffm/parse 🔒
+
+Parse a Spectrum XLSX file and store the resulting snapshot.
+
+**Auth:** Admin only
+
+**Request:** Multipart form with XLSX file
+
+**Response:** `200 OK`
+```json
+{
+  "snapshot_id": "spectrum_2026-02-24_143022",
+  "sections_parsed": [
+    "summary_is",
+    "key_assumptions",
+    "valuation",
+    "btc_impact",
+    "spac_spend",
+    "headcount"
+  ],
+  "revenue_lines": 7,
+  "segments": 5,
+  "close_dates": 2
+}
+```
+
+---
+
+### GET /ffm/snapshots
+
+List available FFM snapshots.
+
+**Auth:** All users
+
+**Response:** `200 OK`
+```json
+[
+  {
+    "id": "spectrum_2026-02-24_143022",
+    "parsed_at": "2026-02-24T14:30:22Z",
+    "source_file": "Spectrum Financial Forecast Model 2.24.26.xlsx"
+  }
+]
+```
+
+---
+
+### GET /ffm/snapshots/:id
+
+Retrieve a specific FFM snapshot with all financial data.
+
+**Auth:** All users
+
+**Response:** Full `FFMSnapshot` JSON object with all sections.
+
+## Data Model
+
+See [Data Model](/engineering/data-model) for the complete `FFMSnapshot` Pydantic schema.

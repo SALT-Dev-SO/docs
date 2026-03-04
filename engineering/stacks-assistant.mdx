@@ -1,0 +1,52 @@
+---
+title: "Stacks Assistant"
+description: "AI-powered sidebar assistant integrated into the D&O Dashboard"
+---
+
+## Overview
+
+The Stacks Assistant is an AI chat sidebar embedded in the D&O Dashboard, providing context-aware assistance for board operations, financial analysis, and governance workflows.
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Chat** | Full-height chat interface anchored to sidebar |
+| **Thread History** | Persistent conversation threads with expand/collapse panel |
+| **TTS** | Listen button with text-to-speech playback |
+| **Context Menu** | Right-click messages to listen, copy text, or share |
+| **Responsive** | Collapses to mobile-friendly layout |
+| **Dashboard Parity** | Full functionality across both `base.html` and `dashboard.html` templates |
+
+## Layout Architecture
+
+```
+┌─────────────────────────────────┬──────────────┐
+│                                 │   Stacks     │
+│     Main Content Area           │   Assistant  │
+│     (Dashboard pages)           │   Sidebar    │
+│                                 │              │
+│                                 │  ┌────────┐  │
+│                                 │  │ Thread │  │
+│                                 │  │ Panel  │  │
+│                                 │  └────────┘  │
+│                                 │              │
+│                                 │  ┌────────┐  │
+│                                 │  │ Chat   │  │
+│                                 │  │ Area   │  │
+│                                 │  └────────┘  │
+│                                 │              │
+│                                 │  ┌────────┐  │
+│                                 │  │ Input  │  │
+│                                 │  └────────┘  │
+└─────────────────────────────────┴──────────────┘
+```
+
+## Resize Divider
+
+The sidebar includes a draggable resize divider:
+
+- **Drag** — Click and drag the divider to resize
+- **Keyboard** — Arrow keys for fine-grained width adjustment
+- **Double-click** — Reset to default width
+- **Persistence** — Width saved across sessions

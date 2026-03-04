@@ -1,0 +1,75 @@
+---
+title: "Tech Stack"
+description: "Technology choices, dependencies, and project structure"
+---
+
+## Core Stack
+
+| Layer | Technology | Version |
+|-------|-----------|---------|
+| **Backend** | Python + Flask | 3.9.18 / 3.0 |
+| **Frontend** | Jinja2 + Bootstrap 5 + Vanilla JS | ES6+ |
+| **Database** | SQLite | users.db |
+| **Data Storage** | JSON files | settings, snapshots, peers |
+| **Testing** | pytest | 7.x |
+| **CI/CD** | GitHub Actions + Railway | Auto-deploy |
+| **Auth** | Google OAuth + bcrypt passwords | Flask sessions |
+
+## Key Dependencies
+
+```
+Flask==3.0
+Jinja2
+Bootstrap 5
+openpyxl          # FFM Excel parsing
+pydantic          # Data validation (FFM models, grants)
+werkzeug          # Password hashing, request handling
+google-auth       # OAuth integration
+gunicorn          # Production WSGI server
+```
+
+## Project Structure
+
+```
+SALT-Directors-and-Officers-Dashboard/
+├── app.py                    # Main Flask app (routes, auth, config)
+├── ffm/                      # FFM blueprint
+│   ├── __init__.py
+│   ├── models.py             # Pydantic models (FFMSnapshot, etc.)
+│   ├── parser.py             # openpyxl Spectrum XLSX parser
+│   └── routes.py             # FFM analytics routes
+├── grants/                   # Grants blueprint
+│   ├── models.py             # GrantPlan, GrantAllocation models
+│   ├── routes.py             # Grants API endpoints
+│   └── calculator.py         # Dilution calculation engine
+├── templates/                # Jinja2 templates
+│   ├── base.html             # Base layout with nav
+│   ├── dashboard.html        # Main dashboard
+│   ├── lightwave_presentation.html  # 39-slide deck
+│   ├── ffm_*.html            # FFM analytics pages
+│   └── options_grants*.html  # Grant management pages
+├── static/css/               # Stylesheets
+│   ├── salt-brand.css        # Brand styles + governance CSS
+│   └── salt-presentation.css # Presentation typography
+├── data/                     # JSON data files
+│   ├── settings.json         # App settings (publish states)
+│   └── ffm_snapshots/        # Parsed FFM JSON files
+├── tests/                    # Test suite
+│   ├── contract/             # API contract tests
+│   ├── unit/                 # Unit tests
+│   └── integration/          # Integration tests
+└── specs/                    # Spec-Driven Development artifacts
+    ├── 012-interactive-grant-modeling-ui/
+    ├── 013-data-source-reconciliation/
+    ├── 016-ffm-financial-forecast/
+    ├── 017-lightwave-spac-investor/
+    └── 018-browser-auth-workflow/
+```
+
+## Design Principles
+
+1. **Server-rendered** — No SPA framework; Jinja2 templates + vanilla JS for interactivity
+2. **Spec-first** — Every feature starts with a specification before implementation
+3. **TDD** — Contract tests written before route implementation
+4. **JSON-over-DB** — Settings and snapshot data stored as JSON files (no ORM migration overhead)
+5. **Blueprint modularity** — FFM and Grants are Flask blueprints; core routes remain in app.py

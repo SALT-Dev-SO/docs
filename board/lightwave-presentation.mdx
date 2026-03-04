@@ -1,0 +1,55 @@
+---
+title: "Lightwave Presentation"
+description: "39-slide interactive investor deck with content governance and keyboard navigation"
+---
+
+## Lightwave SPAC Investor Presentation (Spec 017)
+
+A full-fidelity HTML transcription of the 39-slide "Project Silverado PIPE Presentation" rendered as an interactive deck on the D&O Dashboard.
+
+## Access
+
+| URL | Description |
+|-----|-------------|
+| `/lightwave-presentation` | Main deck route (requires authentication) |
+| `/lightwave-presentation#slide-N` | Deep link to specific slide (1-39) |
+
+## Navigation
+
+- **Arrow Keys** — Left/Right to navigate between slides
+- **Escape** — Return to slide 1
+- **URL Fragments** — `#slide-14` links directly to a specific slide
+- **Slide Counter** — Shows "Slide N of 39" in the navigation bar
+
+## Content Governance
+
+Three-tier visibility model controlled server-side via Jinja2:
+
+| Tier | Badge | Visibility | Purpose |
+|------|-------|-----------|---------|
+| **Deck** | None | All authenticated users | Standard presentation content |
+| **Verbal Only** | 🔵 VERBAL ONLY | Admin only | Speaking notes and talking points |
+| **Internal** | ⚪ INTERNAL | Admin only | BTIG review annotations |
+
+<Note>
+Admin users always see all three tiers (always-on preview). Non-admin users see only deck content when the presentation is published.
+</Note>
+
+## Publish Toggle
+
+The presentation's visibility is controlled via `data/settings.json`:
+
+- **Published** — All authenticated users can view the deck
+- **Unpublished** — Only admin users can access (preview mode)
+- Non-admin users accessing an unpublished deck see the "presentation unavailable" page
+
+## Slide Inventory
+
+| Slides | Type | Content |
+|--------|------|---------|
+| 1-4, 19 | Legal/Static | Disclaimers, forward-looking statements, PIPE terms |
+| 5-12 | Narrative | Market opportunity, product, competitive landscape, technology |
+| 13-16 | Financial | Revenue, EBITDA, loan metrics (some FFM-driven) |
+| 17-18, 20 | Narrative | Management team, board of directors |
+| 21-23 | Financial | Valuation scenarios, growth metrics |
+| 24-39 | Appendix | Partnerships, treasury model, risk, timeline, unit economics |

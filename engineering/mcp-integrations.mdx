@@ -1,0 +1,36 @@
+---
+title: "MCP Integrations"
+description: "Model Context Protocol servers and AI agent connectivity"
+---
+
+## MCP Architecture
+
+SALT uses multiple MCP (Model Context Protocol) servers to provide AI agents with structured access to operational data.
+
+## Active MCP Servers
+
+| Server | Source | Purpose |
+|--------|--------|---------|
+| **Mintlify MCP** | `salt-7cda89d5.mintlify.app/mcp` | Documentation search and retrieval |
+| **Open Brain MCP** | `localhost:8080` | Semantic memory search and storage |
+| **Comet Browser MCP** | Chrome Extension | Browser automation via CDP |
+| **AWS MCP** | Claude Code integration | AWS CLI command execution |
+
+## Stacks Assistant
+
+The Stacks AI Assistant sidebar on the D&O Dashboard provides in-context AI assistance:
+
+- **Chat Interface** — Ask questions about dashboard data and board operations
+- **Thread History** — Persistent conversation threads
+- **TTS (Text-to-Speech)** — Listen button for audio playback of responses
+- **Context Menu** — Right-click to listen, copy, or share assistant messages
+
+## Agent Capabilities
+
+When connected to MCP servers, AI agents can:
+
+1. **Search documentation** — Query Mintlify docs for authoritative answers
+2. **Access memories** — Retrieve relevant context from Open Brain's semantic store
+3. **Control browser** — Navigate and interact with web pages via Comet CDP
+4. **Execute AWS commands** — Manage cloud infrastructure
+5. **Learn continuously** — Store new knowledge back to Open Brain after interactions

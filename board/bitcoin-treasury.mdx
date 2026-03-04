@@ -1,0 +1,37 @@
+---
+title: "Bitcoin Treasury"
+description: "Real-time Bitcoin reserve tracking and treasury management"
+---
+
+## Treasury Dashboard
+
+The Bitcoin Treasury page on the D&O Dashboard provides real-time visibility into SALT's Bitcoin holdings, allocation strategy, and treasury performance.
+
+## Key Metrics
+
+| Metric | Description |
+|--------|-------------|
+| BTC Holdings | Total Bitcoin in reserve |
+| USD Valuation | Market value of BTC holdings |
+| Allocation % | Treasury allocation to BTC vs. fiat |
+| Performance | Historical returns and benchmark comparison |
+
+## Data Sources
+
+Treasury data flows from multiple sources:
+
+- **Exchange APIs** — Real-time BTC price feeds
+- **Custody Reports** — On-chain holdings verification
+- **FFM Model** — Treasury allocation projections from Spectrum FFM
+- **Settings** — Configuration in `data/settings.json`
+
+## Related Pages
+
+<Columns cols={2}>
+  <Card title="Treasury Operations" icon="vault" href="/investor/treasury-operations">
+    Strategic overview of treasury allocation and de-SPAC cash deployment.
+  </Card>
+  <Card title="FFM Analytics" icon="chart-line" href="/board/ffm-analytics">
+    BTC impact toggle and treasury revenue projections.
+  </Card>
+</Columns>

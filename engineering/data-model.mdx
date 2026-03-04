@@ -1,0 +1,78 @@
+---
+title: "Data Model"
+description: "Core entities, data storage, and schema definitions"
+---
+
+## Storage Architecture
+
+SALT uses a hybrid storage approach:
+
+| Store | Technology | Contents |
+|-------|-----------|----------|
+| **users.db** | SQLite | User accounts, roles, sessions |
+| **settings.json** | JSON file | Application settings, presentation publish states |
+| **ffm_snapshots/** | JSON files | Parsed FFM financial data (timestamped) |
+| **ffm_peers.json** | JSON file | Peer company comparison data |
+| **ffm_catalysts.json** | JSON file | Key catalysts and milestones |
+| **Google Sheets** | External | Live cap table and financial data |
+| **Carta** | External | Baseline equity ownership records |
+
+## Key Entities
+
+### User (SQLite)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| username | string | Unique identifier |
+| password_hash | string | bcrypt hash |
+| display_name | string | Human-readable name |
+| role | enum | `admin` or `dashboard` |
+| status | string | Account status |
+| created_at | datetime | Account creation timestamp |
+
+### FFMSnapshot (Pydantic → JSON)
+
+```python
+class FFMSnapshot(BaseModel):
+    summary_is: SummaryIS          # Revenue lines, EBITDA, margins
+    key_assumptions: KeyAssumptions # 5 lending segments
+    valuation: Valuation           # Close-date scenarios
+    btc_impact: BTCImpact          # Toggle, CAGR
+    spac_spend: SPACSspend         # Treasury allocation
+    headcount: Headcount           # Department projections
+    metadata: SnapshotMetadata     # Parse timestamp, source file
+```
+
+### GrantPlan (Pydantic → JSON)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | string | Unique plan identifier |
+| name | string | Plan display name |
+| total_pool | int | Authorized option pool size |
+| title_tiers | list | Title-based allocation rules |
+| allocations | list | Individual grant allocations |
+| created_at | datetime | Plan creation timestamp |
+
+### LightwaveSettings (JSON)
+
+```json
+{
+  "presentations": {
+    "lightwave_spac": {
+      "published": true,
+      "title": "Project Silverado PIPE Presentation",
+      "version": "2026-02-25"
+    }
+  }
+}
+```
+
+### DataProvenance (Runtime)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| source_name | string | Display name of data source |
+| source_type | enum | `google_sheets`, `excel_fallback`, `carta_baseline` |
+| timestamp | datetime | Last sync timestamp |
+| cache_age | string | Human-readable relative time |

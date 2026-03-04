@@ -1,0 +1,54 @@
+---
+title: "Deployment"
+description: "Railway deployment architecture and environment configuration"
+---
+
+## Production Environment
+
+The D&O Dashboard is deployed on Railway with automatic deployments from the `main` branch.
+
+| Setting | Value |
+|---------|-------|
+| **Platform** | Railway |
+| **Python** | 3.11 (CI) / 3.9.18 (local dev) |
+| **Framework** | Flask 3.0 with Gunicorn |
+| **Database** | SQLite (users.db) |
+| **Data Storage** | JSON files (`data/settings.json`, `data/ffm_snapshots/`) |
+| **Static Assets** | Flask static folder (`/static`) |
+
+## CI/CD Pipeline
+
+GitHub Actions runs on every PR to `main`:
+
+```yaml
+jobs:
+  lint:        # Ruff lint + format check (informational, continue-on-error)
+  test-python: # pytest with coverage (--cov=src)
+  verify-flask: # Verify app.py is importable
+```
+
+## Branch Strategy
+
+| Branch | Purpose |
+|--------|---------|
+| `main` | Production — auto-deploys to Railway |
+| `0XX-feature-name` | Feature branches — PR required for merge |
+
+## Spec-Driven Development
+
+All features follow the SDD lifecycle:
+
+```
+specify → clarify → plan → analyze → tasks → implement → validate → codify → docs-review
+```
+
+Each spec lives in `specs/0XX-feature-name/` with a complete artifact kit:
+
+- `spec.md` — Functional requirements and acceptance criteria
+- `plan.md` — Implementation plan with constitution check
+- `research.md` — Technical decisions
+- `data-model.md` — Entity definitions and contracts
+- `tasks.md` — Implementation task breakdown
+- `quickstart.md` — Validation test procedures
+- `contracts/` — API contracts and test files
+- `evidence/` — Validation screenshots and reports

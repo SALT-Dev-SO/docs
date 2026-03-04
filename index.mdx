@@ -1,97 +1,70 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "SALT Documentation"
+description: "Internal and external knowledge base for SALT Lending — Board Governance, Investor Relations, and Engineering"
 ---
 
-## Setting up
+## Welcome to SALT Docs
 
-Get your documentation site up and running in minutes.
+The single source of truth for SALT Lending's board governance, investor materials, and engineering architecture.
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
+<Columns cols={3}>
   <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
+    title="Investor Relations"
+    icon="chart-line"
+    href="/investor/overview"
   >
-    Edit your docs locally and preview them in real time.
+    Project Silverado PIPE presentation — market, product, financials, and operations.
   </Card>
   <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
+    title="Board & Governance"
+    icon="building-columns"
+    href="/board/dashboard-overview"
   >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+    D&O Dashboard for Bitcoin Treasury, Cap Table, Options Grants, and Financial Forecasting.
   </Card>
   <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
-
-## Create beautiful pages
-
-Everything you need to create world-class documentation.
-
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
+    title="Engineering"
     icon="code"
-    href="/essentials/code"
+    href="/engineering/tech-stack"
   >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
+    Technical architecture, Spec-Driven Development, AI agents, and API reference.
   </Card>
 </Columns>
 
-## Need inspiration?
+## Key Systems
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<Columns cols={2}>
+  <Card
+    title="D&O Dashboard"
+    icon="gauge-high"
+    href="https://salt-directors-and-officers-dashboard-production.up.railway.app"
+    horizontal
+  >
+    Board management, Bitcoin Treasury tracking, and financial analytics. Deployed on Railway. v2.0.
+  </Card>
+  <Card
+    title="Silverado PIPE Presentation"
+    icon="presentation-screen"
+    href="https://silverado-pipe.figma.site/admin"
+    horizontal
+  >
+    39-slide investor deck covering SALT's merger with LightWave Acquisition Corp. v3.3.26.
+  </Card>
+</Columns>
+
+## Quick Links
+
+<Columns cols={2}>
+  <Card title="Cap Table & Grants" icon="table" href="/board/options-grants">
+    Interactive grant modeling with sensitivity controls and scenario comparison.
+  </Card>
+  <Card title="FFM Analytics" icon="chart-bar" href="/board/ffm-analytics">
+    Financial Forecast Model — revenue, valuation, redemption, and comp analysis.
+  </Card>
+  <Card title="Open Brain" icon="brain" href="/engineering/open-brain">
+    Semantic memory system with pgvector, MCP interface, and multi-provider embeddings.
+  </Card>
+  <Card title="API Reference" icon="terminal" href="/engineering/api/grants">
+    REST API documentation for grants, FFM, and reconciliation endpoints.
+  </Card>
+</Columns>

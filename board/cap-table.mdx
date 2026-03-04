@@ -1,0 +1,40 @@
+---
+title: "Cap Table"
+description: "Equity ownership tracking with Carta integration and data source reconciliation"
+---
+
+## Cap Table Management
+
+The D&O Dashboard provides cap table visibility with data reconciliation between multiple sources.
+
+## Data Sources
+
+| Source | Type | Purpose |
+|--------|------|---------|
+| **Carta** | Baseline | Authoritative equity ownership records |
+| **Google Sheets** | Working copy | Board-editable cap table with real-time updates |
+| **Excel Fallback** | Backup | Offline fallback when Google Sheets is unavailable |
+
+## Reconciliation Features (Spec 013)
+
+The Data Source Reconciliation system ensures data integrity across sources:
+
+- **Provenance Labels** — Every data-driven page shows its source (Google Sheets, Carta, Excel fallback) with a `.alert-info` badge
+- **Spreadsheet Name** — Displays the actual Google Sheets document name, not just "Google Sheets"
+- **Relative Cache Age** — Shows "2 hours ago" instead of raw ISO timestamps
+- **Reconciliation Dates** — Last reconciliation timestamp and record counts
+- **Dismiss Behavior** — Users can dismiss reconciliation notices with session persistence
+
+## Pages
+
+- **Cap Table** — Primary equity ownership view with provenance labels
+- **Cap Table Comparison** — Side-by-side Carta vs. Google Sheets delta analysis
+- **Options Grants** — Grant modeling with Carta baseline integration
+
+<Card
+  title="Data Reconciliation Details"
+  icon="arrows-rotate"
+  href="/engineering/api/reconciliation"
+>
+  API documentation for the reconciliation endpoint and delta calculation.
+</Card>

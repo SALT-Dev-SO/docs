@@ -1,0 +1,50 @@
+---
+title: "Options Grants"
+description: "Interactive grant modeling with sensitivity controls, scenario comparison, and compliance tracking"
+---
+
+## Options Grants Pipeline (Spec 012)
+
+The Options Grants system provides a full interactive grant modeling pipeline for board-level equity planning.
+
+## Features
+
+### Grant Plan Management
+- **Create/Edit/Delete** grant plans with custom configurations
+- **Title-tier editor** — Define equity allocation rules by employee title
+- **Org chart import** — Upload organizational structure for automated allocation
+
+### Sensitivity Controls
+- **What-if overrides** — Modify individual grant parameters and see real-time dilutive impact
+- **Sensitivity sliders** — Adjust share price, vesting schedules, and allocation percentages
+- **Bulk grant modeling** — Model large-scale grant events
+
+### Compliance & Reporting
+- **Pool capacity tracking** — Real-time option pool utilization vs. authorized shares
+- **Compliance status** — Automated checks against plan limits
+- **Carta export** — Generate Carta-compatible import files
+- **CSV export** — Download allocation data for offline analysis
+
+### Scenario Comparison
+- **Side-by-side comparison** — Compare preferred stock conversion scenarios (e.g., Pref 2:1 vs. Perpetual)
+- **Vesting timelines** — Visual vesting schedule comparison
+- **Export** — Download scenario comparison data
+
+## API Endpoints
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/api/grants/baseline` | GET | Carta baseline equity data |
+| `/api/grants/plans` | GET/POST | List or create grant plans |
+| `/api/grants/plans/:id` | GET/PUT/DELETE | CRUD on individual plans |
+| `/api/grants/plans/:id/calculate` | POST | Run dilution calculations |
+| `/api/grants/plans/:id/scenarios` | GET | Scenario comparison data |
+| `/api/grants/plans/:id/carta-export` | GET | Generate Carta import file |
+
+<Card
+  title="Full API Reference"
+  icon="terminal"
+  href="/engineering/api/grants"
+>
+  Complete grants API documentation with request/response schemas.
+</Card>
