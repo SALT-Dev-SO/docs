@@ -9,6 +9,25 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "D&O Dashboard",
+          "icon": "gauge-high",
+          "href": "https://salt-directors-and-officers-dashboard-production.up.railway.app"
+        },
+        {
+          "anchor": "Silverado PIPE",
+          "icon": "presentation-screen",
+          "href": "https://silverado-pipe.figma.site/admin"
+        },
+        {
+          "anchor": "GitHub",
+          "icon": "github",
+          "href": "https://github.com/SALT-Dev-SO"
+        }
+      ]
+    },
     "tabs": [
       {
         "tab": "Overview",
@@ -25,7 +44,7 @@
       },
       {
         "tab": "Investor Relations",
-        "groups": [
+        "pages": [
           {
             "group": "Project Silverado",
             "pages": [
@@ -37,7 +56,8 @@
               "investor/financials",
               "investor/operations-team"
             ]
-          }
+          },
+          "jurisdictional-roadmap"
         ]
       },
       {
@@ -92,26 +112,7 @@
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "D&O Dashboard",
-          "href": "https://salt-directors-and-officers-dashboard-production.up.railway.app",
-          "icon": "gauge-high"
-        },
-        {
-          "anchor": "Silverado PIPE",
-          "href": "https://silverado-pipe.figma.site/admin",
-          "icon": "presentation-screen"
-        },
-        {
-          "anchor": "GitHub",
-          "href": "https://github.com/SALT-Dev-SO",
-          "icon": "github"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/logo/light.svg",
