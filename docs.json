@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "SALT Documentation",
   "colors": {
-    "primary": "#1E40AF",
-    "light": "#3B82F6",
-    "dark": "#1E3A5F"
+    "primary": "#00D4AA",
+    "light": "#4DFFE0",
+    "dark": "#0A8F73"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -116,7 +116,8 @@
   },
   "logo": {
     "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "dark": "/logo/dark.svg",
+    "href": "https://salt-7cda89d5.mintlify.app"
   },
   "navbar": {
     "links": [
@@ -143,6 +144,14 @@
   "footer": {
     "socials": {
       "github": "https://github.com/SALT-Dev-SO"
+    }
+  },
+  "appearance": {
+    "default": "dark"
+  },
+  "background": {
+    "color": {
+      "dark": "#1B1B3A"
     }
   }
 }
