@@ -109,7 +109,14 @@
               "engineering/api/ffm",
               "engineering/api/reconciliation"
             ]
-          }
+          },
+            {
+              "group": "Workflows",
+              "pages": [
+                "engineering/reproduce-workflow-command",
+                "engineering/browser-workflow-reproducibility-guide"
+              ]
+            }
         ]
       }
     ]

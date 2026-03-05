@@ -1,0 +1,261 @@
+---
+title: "Browser Workflow Reproducibility Guide"
+description: "Meta-handbook for capturing any completed browser workflow as a reproducible, step-by-step guide"
+icon: "clipboard-check"
+---
+
+<Note>
+The meta-handbook for capturing any completed browser workflow as a reproducible, step-by-step guide.
+</Note>
+
+## Phase 1 -- Capture (Raw Session Notes)
+
+Immediately after completing a browser workflow, record the following:
+
+### 1.1 URL Journal
+
+List every URL visited, in order. Include the navigation method.
+
+| # | URL | Navigation Method | Page Title |
+|---|-----|-------------------|------------|
+| 1 | `http://127.0.0.1:5174/` | Direct navigation | E2S Pipeline Dashboard |
+| 2 | `http://127.0.0.1:5174/` -> Priority tab | Click nav link | Priority Queue |
+| 3 | `http://127.0.0.1:5174/` -> Actions tab | Click nav link | Actions |
+
+### 1.2 Action Log
+
+Record each action as a plain-language sentence:
+
+- "Clicked the 'Priority' link in the top navigation bar"
+- "Clicked 'Show all criteria' on Priority item #1"
+- "Scrolled down to find the success row with View/Analyze/Export buttons"
+- "Clicked 'Export All Runs' button in top-right of Dashboard"
+
+### 1.3 Final State Screenshot
+
+For each page visited, note the final observed state:
+- What was visible on screen
+- Any error messages or loading states
+- Data values that confirm correct state
+
+### 1.4 Prerequisites
+
+Document everything that must be true before the workflow starts:
+
+<Steps>
+  <Step title="Backend API server running">
+    API server must be running on port 8000
+  </Step>
+  <Step title="Frontend dev server running">
+    Dev server must be running on port 5174
+  </Step>
+  <Step title="Pipeline status: connected">
+    Green dot indicator showing backend connectivity
+  </Step>
+  <Step title="Processing history exists">
+    At least one successful processing run in history (for View/Analyze/Export buttons)
+  </Step>
+  <Step title="Browser requirements">
+    Any modern browser with JavaScript enabled
+  </Step>
+</Steps>
+
+### 1.5 Flag Dynamic vs. Static Elements
+
+| Element | Type | Why |
+|---------|------|-----|
+| Nav bar with 7 links | **Static** | Always present, never changes |
+| Stat card values (0, 77.3%) | **Dynamic** | Changes with each poll cycle |
+| Processing history rows | **Dynamic** | New rows appear, statuses change |
+| Pipeline status dot (green/red) | **Dynamic** | Depends on backend connectivity |
+| Top Priority card content | **Dynamic** | Changes after re-ranking |
+| "not_started" badge | **Dynamic** | Reflects pipeline run state |
+| System score (7.3/10) | **Semi-static** | Only changes when capability scorecard is regenerated |
+
+---
+
+## Phase 2 -- Structure (Step Block Format)
+
+Transform raw notes into the standardized step-block format.
+
+### Rules
+
+1. **One action per step** -- never combine "click X and then type Y" into one step
+2. **Imperative verb title** -- "Navigate to," "Click," "Verify," "Scroll to," "Enter," "Select"
+3. **Observable expected result** -- what the operator can see, not internal state
+4. **Verification method** -- how to confirm the step succeeded
+
+### Step Block Template
+
+```markdown
+### Step N: [Verb] [Object]
+- **URL:** `[current URL]`
+- **Action:** [Single atomic action]
+- **Selector/Target:** `[how to find the element]`
+- **Input (if any):** `[value]`
+- **Expected Result:** [What visibly changes]
+- **Verification:** [How to confirm]
+- **Pre-requisite:** [What must be true first]
+```
+
+---
+
+## Worked Example: E2S Dashboard Audit
+
+<AccordionGroup>
+  <Accordion title="Step 1: Navigate to E2S Dashboard">
+    - **URL:** `http://127.0.0.1:5174/`
+    - **Action:** Open the URL in browser
+    - **Selector/Target:** Browser address bar
+    - **Expected Result:** Dashboard page loads with heading "Dashboard", status badge, 4 stat cards, and nav bar with 7 links
+    - **Verification:** Text "Dashboard" visible as h1; nav bar contains links: Dashboard, Priority, Actions, Calendar, Analytics, Management, System
+    - **Pre-requisite:** Dev server running on port 5174, API server running on port 8000
+  </Accordion>
+
+  <Accordion title="Step 2: Verify Dashboard KPI Cards">
+    - **URL:** `http://127.0.0.1:5174/`
+    - **Action:** Observe the 4 stat cards below the heading
+    - **Selector/Target:** Cards labeled COMPLETED TODAY, SKIPPED TODAY, ERRORS TODAY, SUCCESS RATE
+    - **Expected Result:** Each card displays a numeric value. Success Rate shows a percentage.
+    - **Verification:** All 4 cards render with non-empty values; no "Loading..." text visible
+
+    <Warning>
+    **VARIABLE:** Card values (e.g., 0, 77.3%) change between sessions. Verify cards exist and contain numeric text, don't assert exact values.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="Step 3: Verify Top Priority Card">
+    - **URL:** `http://127.0.0.1:5174/`
+    - **Action:** Observe the Top Priority section below stat cards
+    - **Selector/Target:** Section containing "#1", "Top Priority", score badge, and description text
+    - **Expected Result:** Shows ranked item #1 with numeric score, spec title, and urgency description
+    - **Verification:** "#1" rank indicator visible; score is a number > 0; description text is non-empty
+
+    <Warning>
+    **VARIABLE:** Priority item content changes after re-ranking. Score was 471 during capture.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="Step 4: Verify Currently Processing Card">
+    - **URL:** `http://127.0.0.1:5174/`
+    - **Action:** Observe the Currently Processing section
+    - **Selector/Target:** Blue-bordered card with "Currently Processing" heading
+    - **Expected Result:** Shows subject line, step name, and start time -- OR shows empty/idle state
+    - **Verification:** Card is visible; if processing, contains "Step:" label with timestamp
+
+    <Warning>
+    **VARIABLE:** Only visible during active processing. May show idle state between runs.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="Step 5: Navigate to Priority Queue">
+    - **URL:** `http://127.0.0.1:5174/` -> click Priority
+    - **Action:** Click "Priority" link in top navigation bar
+    - **Selector/Target:** `nav a` containing text "Priority"
+    - **Expected Result:** Page transitions to Priority Queue. Heading shows "Priority Queue" with spec count, confidence %, and last updated timestamp.
+    - **Verification:** Heading text contains "Priority Queue"; "EDM Report" and "Re-rank All" buttons visible in top-right
+  </Accordion>
+
+  <Accordion title="Step 6: Expand Priority Item Criteria">
+    - **URL:** `http://127.0.0.1:5174/` (Priority view)
+    - **Action:** Click "Show all criteria" link on the first priority card (#1)
+    - **Selector/Target:** Link text "Show all criteria" within first priority card
+    - **Expected Result:** Card expands to show 7 horizontal scoring bars: Urgency, Business Impact, Time Sensitivity, Dependencies, Risk, Tech Complexity, Cost. Each shows a score out of 10 with a weight value.
+    - **Verification:** 7 bar labels visible; link text changes to "Hide"; scores displayed as "N/10 (w:N)"
+  </Accordion>
+
+  <Accordion title="Step 7: Navigate to Actions Page">
+    - **URL:** `http://127.0.0.1:5174/` -> click Actions
+    - **Action:** Click "Actions" link in top navigation bar
+    - **Selector/Target:** `nav a` containing text "Actions"
+    - **Expected Result:** Actions page loads with 4 stat cards (Total Actions, Completed, Needs Approval, Failed), skill category badges, filter dropdowns, and actions data table
+    - **Verification:** Heading contains "Actions" or stat cards visible; table has columns: Action, Skill, Type, Status, Tier, Time
+  </Accordion>
+
+  <Accordion title="Step 8: Verify Action Buttons Render">
+    - **URL:** `http://127.0.0.1:5174/` (Actions view)
+    - **Action:** Scroll table to find rows with "Manual" or "failed" status
+    - **Selector/Target:** Table rows where Status column shows "Manual" or "failed"
+    - **Expected Result:** "Manual" rows show an "Approve" button. "failed" rows show a "Retry" button.
+    - **Verification:** Button text matches "Approve" or "Retry"; buttons are clickable (not disabled)
+  </Accordion>
+
+  <Accordion title="Step 9: Navigate to Calendar">
+    - **URL:** `http://127.0.0.1:5174/` -> click Calendar
+    - **Action:** Click "Calendar" link in top navigation bar
+    - **Selector/Target:** `nav a` containing text "Calendar"
+    - **Expected Result:** Calendar page loads with 4 stat cards (Total Events, Reviews, Task Blocks, Deadlines), time period dropdown, Refresh button, and category filter tabs
+    - **Verification:** "Calendar" heading visible; "Next 14 days" dropdown present; filter tabs rendered
+  </Accordion>
+
+  <Accordion title="Step 10: Navigate to Analytics">
+    - **URL:** `http://127.0.0.1:5174/` -> click Analytics
+    - **Action:** Click "Analytics" link in top navigation bar
+    - **Selector/Target:** `nav a` containing text "Analytics"
+    - **Expected Result:** Analytics page loads with Weekly Report header, 5 stat cards, Processing Time chart, API Cost chart, By Domain pie chart, By Urgency chart, Top Senders list, Top Keywords tags
+    - **Verification:** "Analytics" heading visible; at least 2 chart elements rendered; stat cards show numeric values
+
+    <Warning>
+    **VARIABLE:** All analytics values change with new data. Date range in header is dynamic.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="Step 11: Navigate to Management">
+    - **URL:** `http://127.0.0.1:5174/` -> click Management
+    - **Action:** Click "Management" link in top navigation bar
+    - **Selector/Target:** `nav a` containing text "Management"
+    - **Expected Result:** Management page loads with Pipeline Controls (status indicator, Pause Pipeline button, Trigger Poll Now button), Retry Failed Emails section, and Settings section (Poll Interval, Max Retries, Log Level)
+    - **Verification:** "Management" heading visible; "Pause Pipeline" button (red) and "Trigger Poll Now" button (yellow) visible
+  </Accordion>
+
+  <Accordion title="Step 12: Navigate to System Overview">
+    - **URL:** `http://127.0.0.1:5174/` -> click System
+    - **Action:** Click "System" link in top navigation bar
+    - **Selector/Target:** `nav a` containing text "System"
+    - **Expected Result:** System Overview loads with Status/Roadmap toggle, Overall System Score with progress bar, Pipeline Architecture flow diagram (5 stages), Capability Scorecard (12 areas), Cost Breakdown, Infrastructure checklist
+    - **Verification:** "System Overview" heading visible; score displays as "N.N of 10.0"; 5 pipeline architecture stage cards visible
+  </Accordion>
+
+  <Accordion title="Step 13: Switch to Roadmap Tab">
+    - **URL:** `http://127.0.0.1:5174/` (System view)
+    - **Action:** Click "Roadmap" tab button in top-right
+    - **Selector/Target:** Button text "Roadmap" next to "Status" button
+    - **Expected Result:** View switches to show "ROADMAP TO 10/10" with three severity sections: Critical Gaps (red), Important Gaps (yellow), Polish Items (green)
+    - **Verification:** "ROADMAP" heading visible; three gap sections rendered with bullet items
+
+    <Warning>
+    **VARIABLE:** Gap count (39) changes when capability scorecard is regenerated.
+    </Warning>
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Phase 3 -- Validate
+
+Run these checks against your completed guide:
+
+### 3.1 Read-Through Test
+
+- [ ] Read each step aloud. Can someone unfamiliar with the app follow it?
+- [ ] Does every step have exactly one action?
+- [ ] Are all imperative verbs concrete? (Click, Navigate, Scroll, Verify, Enter -- not "Check" or "Do")
+
+### 3.2 Selector Audit
+
+- [ ] Every selector/target description is specific enough to find the element
+- [ ] No reliance on array indices that shift (e.g., "3rd row" without stable identifier)
+- [ ] Dynamic content flagged with warnings
+
+### 3.3 Dependency Check
+
+- [ ] Steps are in correct order -- no step references a result from a later step
+- [ ] Prerequisites are listed at the top, not buried in step blocks
+- [ ] Each step's pre-requisite field correctly references the prior step
+
+### 3.4 Dry-Run on Fresh Profile
+
+- [ ] Open incognito/fresh browser profile
+- [ ] Follow every step exactly as written
+- [ ] Record any step that fails or is ambiguous
+- [ ] Update the guide with corrections

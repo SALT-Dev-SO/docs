@@ -1,0 +1,102 @@
+---
+title: "/reproduce-workflow Command"
+description: "Slash command reference for capturing browser workflows as reproducible step-by-step guides"
+icon: "terminal"
+---
+
+## Trigger
+
+```bash
+/reproduce-workflow [--format checklist|narrative|skeleton] [--scope full|last-n]
+```
+
+## Behavior
+
+When invoked after completing any browser task, the assistant performs three operations:
+
+### 1. Audit the Session
+
+- Collect every URL navigated (in order, with timestamps if available)
+- Record every action taken: clicks (with target element), form inputs, scrolls, keyboard shortcuts, waits
+- Record every state change observed: page transitions, loading states, modals, error messages, data appearing/disappearing
+- Note the final state of each page visited
+
+### 2. Generate the Checklist
+
+Output each action as a discrete, numbered **step block** using this format:
+
+```markdown
+### Step N: [Imperative Verb] [Object]
+- **URL:** `https://exact-url-at-this-step`
+- **Action:** [Single atomic action in plain language]
+- **Selector/Target:** `[CSS selector, button text, or coordinate description]`
+- **Input (if any):** `[value entered or option selected]`
+- **Expected Result:** [Observable outcome]
+- **Verification:** [How to confirm success]
+- **Pre-requisite:** [What must be true before this step runs]
+```
+
+### 3. Flag Variables
+
+Mark any element that changes between runs with a warning block:
+
+<Warning>
+**VARIABLE:** [element description] changes between runs.
+Observed value: `[value seen during this session]`
+Match strategy: [use partial text / regex / data-attribute instead]
+</Warning>
+
+Examples of variable elements:
+- Timestamps, counters, live data values
+- Dynamic IDs, session tokens, hash-based URLs
+- Processing status that depends on backend state
+- Table row counts that change with new data
+
+---
+
+## Output Formats
+
+<Tabs>
+  <Tab title="checklist (default)">
+    GitHub-flavored markdown with checkboxes:
+    ```markdown
+    - [ ] **Step 1: Navigate to Dashboard** -- Open `http://127.0.0.1:5174/` -> verify 4 stat cards load
+    - [ ] **Step 2: Verify stat cards** -- Confirm Completed/Skipped/Errors/Success Rate cards render
+    ```
+  </Tab>
+  <Tab title="narrative">
+    Prose paragraphs with inline code:
+    ```
+    Begin by navigating to `http://127.0.0.1:5174/`. The Dashboard page loads showing
+    the pipeline status badge. Confirm four KPI stat cards are visible: COMPLETED TODAY,
+    SKIPPED TODAY, ERRORS TODAY, and SUCCESS RATE.
+    ```
+  </Tab>
+  <Tab title="skeleton">
+    Headers and URLs only for quick reference:
+    ```markdown
+    ## Dashboard Audit
+    - [http://127.0.0.1:5174/](http://127.0.0.1:5174/)
+    ## Priority Queue
+    - http://127.0.0.1:5174/ -> Priority nav link
+    ```
+  </Tab>
+</Tabs>
+
+### Scope Flag
+
+Use `--scope last-n` to only document the last N actions instead of the full session:
+
+```bash
+/reproduce-workflow --scope last-5
+```
+
+---
+
+## Example Invocation
+
+```bash
+/reproduce-workflow --format checklist
+```
+
+Outputs the full session as a numbered checkbox guide ready for copy-paste into a GitHub issue or QA ticket.
