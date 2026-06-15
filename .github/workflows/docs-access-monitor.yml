@@ -1,6 +1,12 @@
 name: Docs Access Monitor
 
 on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
   schedule:
     - cron: "17 * * * *"
   workflow_dispatch:
@@ -8,58 +14,17 @@ on:
 permissions:
   contents: read
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   verify-mintlify-jwt-gate:
     name: verify Mintlify JWT gate
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Check SALT docs-login handoff
-        run: |
-          set -euo pipefail
+      - name: Checkout docs repository
+        uses: actions/checkout@v5
 
-          handoff_headers="$(mktemp)"
-          handoff_body="$(mktemp)"
-
-          handoff_status="$(
-            curl -sS -L --max-time 20 \
-              -D "$handoff_headers" \
-              -o "$handoff_body" \
-              -w "%{http_code}" \
-              "https://salt-platform.up.railway.app/docs-login?redirect=/"
-          )"
-
-          if [ "$handoff_status" -lt 200 ] || [ "$handoff_status" -ge 400 ]; then
-            echo "::error::SALT docs-login handoff returned HTTP $handoff_status"
-            sed -n '1,40p' "$handoff_headers"
-            exit 1
-          fi
-
-          echo "SALT docs-login handoff is reachable with HTTP $handoff_status."
-
-      - name: Verify Mintlify direct access is not public
-        run: |
-          set -euo pipefail
-
-          docs_headers="$(mktemp)"
-          docs_body="$(mktemp)"
-
-          docs_status="$(
-            curl -sS -L --max-time 20 \
-              -D "$docs_headers" \
-              -o "$docs_body" \
-              -w "%{http_code}" \
-              "https://salt-7cda89d5.mintlify.app/"
-          )"
-
-          echo "Mintlify direct access returned HTTP $docs_status."
-          sed -n '1,40p' "$docs_headers"
-
-          if grep -Eiq \
-            'SALT Documentation|SALT Docs|Project Silverado PIPE|data-docs-theme="mint"|/engineering/docs-access-control' \
-            "$docs_body"; then
-            echo "::error::Mintlify direct access exposes SALT docs content without the SALT JWT handoff."
-            exit 1
-          fi
-
-          echo "Mintlify direct access did not expose known SALT docs content markers."
+      - name: Verify docs access gate
+        run: scripts/verify-docs-access.sh

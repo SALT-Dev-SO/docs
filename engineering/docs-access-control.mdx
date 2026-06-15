@@ -38,6 +38,12 @@ Configure this in the Mintlify dashboard for `salt-7cda89d5.mintlify.app`:
 
 Mintlify's JWT setup requires an existing authentication system, a backend-generated redirect URL, an EdDSA-signed JWT, and a callback to `/login/jwt-callback` with the JWT in the URL hash. See [Mintlify authentication setup](https://www.mintlify.com/docs/deploy/authentication-setup).
 
+## Mintlify plan prerequisite
+
+Mintlify dashboard authentication is available on all plans, but Mintlify states that password, OAuth, and JWT authentication require an Enterprise plan. If the Mintlify dashboard shows JWT and OAuth disabled and only Mintlify Auth enabled, the workspace does not currently expose the custom authentication method SALT needs for app-session-based docs access.
+
+Do not enable Mintlify Auth as a substitute for JWT. Mintlify Auth restricts access to Mintlify organization members, not authenticated SALT Platform users, so it does not satisfy the SALT app handoff requirement.
+
 ## SALT API runtime configuration
 
 Set these variables in the SALT API runtime, not in client-side code:
@@ -60,7 +66,9 @@ The JWT `host` claim must exactly match `salt-7cda89d5.mintlify.app`. The JWT `e
 
 ## Continuous monitor
 
-The docs repo includes a scheduled `Docs Access Monitor` workflow that checks the SALT app handoff and fails when unauthenticated Mintlify direct access exposes SALT docs content. After JWT authentication is enabled in Mintlify, this monitor becomes the recurring regression signal for public-access drift.
+The docs repo includes a `Docs Access Monitor` workflow that checks the SALT app handoff and fails when unauthenticated Mintlify direct access exposes SALT docs content. The workflow runs on every pull request, `main` pushes, manual dispatch, and a recurring schedule so the same check can block merges and detect public-access drift after JWT authentication is enabled in Mintlify.
+
+Run `scripts/verify-docs-access.sh` from the docs repository to execute the same gate locally before or after Mintlify authentication changes. The verifier checks the docs root, a protected docs page, `llms.txt`, `llms-full.txt`, and the generated agent-skills index for public SALT content markers. It also fails when the docs root, a protected docs page, or `/login/jwt-callback` return `404`, because a missing site or missing JWT callback route does not prove the SALT app handoff is configured.
 
 ## Repo-owned implementation
 
