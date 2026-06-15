@@ -20,7 +20,7 @@ Mintlify must use JWT custom authentication for this site. Password authenticati
 1. A signed-in SALT user opens the dashboard docs launcher or visits `/docs-login?redirect=/`.
 2. The SALT web app calls `POST /api/docs/mintlify-session` with the user's SALT access token.
 3. The SALT API validates the SALT token and signs a short-lived Mintlify JWT.
-4. The web app redirects the browser to `https://salt-7cda89d5.mintlify.app/login/jwt-callback?redirect=/#{SIGNED_JWT}`.
+4. The web app redirects the browser to `https://salt-7cda89d5.mintlify.app/login/jwt-callback?redirect=/#<SIGNED_JWT>` (the signed JWT is the URL fragment, not part of the `redirect` query parameter).
 5. Mintlify validates the JWT and creates the docs session.
 
 Unauthenticated users must authenticate through the SALT app before the API creates a Mintlify session.
