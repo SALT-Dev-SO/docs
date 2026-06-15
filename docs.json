@@ -110,13 +110,14 @@
               "engineering/api/reconciliation"
             ]
           },
-            {
-              "group": "Workflows",
-              "pages": [
-                "engineering/reproduce-workflow-command",
-                "engineering/browser-workflow-reproducibility-guide"
-              ]
-            }
+          {
+            "group": "Workflows",
+            "pages": [
+              "engineering/docs-access-control",
+              "engineering/reproduce-workflow-command",
+              "engineering/browser-workflow-reproducibility-guide"
+            ]
+          }
         ]
       }
     ]
@@ -131,6 +132,10 @@
       {
         "label": "Dashboard",
         "href": "https://salt-platform.up.railway.app/dashboard"
+      },
+      {
+        "label": "Docs Login",
+        "href": "https://salt-platform.up.railway.app/docs-login?redirect=/"
       }
     ],
     "primary": {
