@@ -58,6 +58,10 @@ The JWT `host` claim must exactly match `salt-7cda89d5.mintlify.app`. The JWT `e
 - The Mintlify JWT private key is present only in the API runtime secrets.
 - The docs repo does not contain private keys, shared passwords, or public bypass pages.
 
+## Continuous monitor
+
+The docs repo includes a scheduled `Docs Access Monitor` workflow that checks the SALT app handoff and fails when unauthenticated Mintlify direct access exposes SALT docs content. After JWT authentication is enabled in Mintlify, this monitor becomes the recurring regression signal for public-access drift.
+
 ## Repo-owned implementation
 
 The app-side handoff lives in the SALT Platform repo:
