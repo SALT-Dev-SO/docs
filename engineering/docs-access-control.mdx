@@ -1,0 +1,71 @@
+---
+title: "Docs access control"
+description: "How SALT protects the Mintlify documentation site with the SALT app JWT handoff"
+---
+
+## Access policy
+
+The published SALT docs host is `https://salt-7cda89d5.mintlify.app`.
+
+The supported user entrypoint is the SALT Platform handoff:
+
+```text
+https://salt-platform.up.railway.app/docs-login?redirect=/
+```
+
+Mintlify must use JWT custom authentication for this site. Password authentication is not the durable SALT configuration because a shared password can be used outside the SALT app and does not prove the user has an active SALT session.
+
+## Runtime flow
+
+1. A signed-in SALT user opens the dashboard docs launcher or visits `/docs-login?redirect=/`.
+2. The SALT web app calls `POST /api/docs/mintlify-session` with the user's SALT access token.
+3. The SALT API validates the SALT token and signs a short-lived Mintlify JWT.
+4. The web app redirects the browser to `https://salt-7cda89d5.mintlify.app/login/jwt-callback?redirect=/#{SIGNED_JWT}`.
+5. Mintlify validates the JWT and creates the docs session.
+
+Unauthenticated users must authenticate through the SALT app before the API creates a Mintlify session.
+
+## Mintlify dashboard configuration
+
+Configure this in the Mintlify dashboard for `salt-7cda89d5.mintlify.app`:
+
+| Setting | Required value |
+| --- | --- |
+| Authentication | Enabled |
+| Custom authentication method | JWT |
+| Existing login flow URL | `https://salt-platform.up.railway.app/docs-login` |
+| Private key | Generated in Mintlify, then stored only in the SALT API runtime |
+
+Mintlify's JWT setup requires an existing authentication system, a backend-generated redirect URL, an EdDSA-signed JWT, and a callback to `/login/jwt-callback` with the JWT in the URL hash. See [Mintlify authentication setup](https://www.mintlify.com/docs/deploy/authentication-setup).
+
+## SALT API runtime configuration
+
+Set these variables in the SALT API runtime, not in client-side code:
+
+```bash
+MINTLIFY_DOCS_HOST=salt-7cda89d5.mintlify.app
+MINTLIFY_JWT_PRIVATE_KEY=<Mintlify-generated EdDSA private key>
+MINTLIFY_DOCS_SESSION_TTL_SECONDS=28800
+```
+
+The JWT `host` claim must exactly match `salt-7cda89d5.mintlify.app`. The JWT `exp` should stay short for the handoff window, while `expiresAt` controls the docs session lifetime.
+
+## Validation checklist
+
+- Direct access to `https://salt-7cda89d5.mintlify.app/` does not reveal docs content without a Mintlify session.
+- `https://salt-platform.up.railway.app/docs-login?redirect=/quickstart` requires SALT sign-in before creating a docs session.
+- An authenticated SALT user lands on `https://salt-7cda89d5.mintlify.app/quickstart` after the JWT callback.
+- The Mintlify JWT private key is present only in the API runtime secrets.
+- The docs repo does not contain private keys, shared passwords, or public bypass pages.
+
+## Repo-owned implementation
+
+The app-side handoff lives in the SALT Platform repo:
+
+| Layer | Path |
+| --- | --- |
+| Web route | `apps/web/src/pages/docs-login.tsx` |
+| Dashboard launcher | `apps/web/src/pages/dashboard/index.tsx` |
+| Return path sanitization | `apps/web/src/lib/auth/return-to.ts` |
+| API route | `apps/api/routes/docs_auth.py` |
+| API contract tests | `apps/api/__tests__/contract/test_docs_mintlify_session.py` |
